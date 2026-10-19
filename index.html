@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#fff0f5">
+  <title>A Little Birthday Surprise 🎂</title>
+  <style>
+    :root { --pink:#ff78a8; --deep:#b83268; --cream:#fffaf5; --lav:#f2e9ff; }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; min-height: 100vh; display: grid; place-items: center; overflow-x: hidden;
+      padding: 24px; color: #59364a;
+      font-family: ui-rounded, "Trebuchet MS", system-ui, sans-serif;
+      background: radial-gradient(circle at top left, #ffe1ed, transparent 40%),
+                  radial-gradient(circle at bottom right, #e9dcff, transparent 42%), #fff8fb;
+    }
+    .card {
+      position: relative; width: min(100%, 620px); text-align: center; padding: clamp(28px, 6vw, 54px);
+      border: 1px solid rgba(255,120,168,.3); border-radius: 30px;
+      background: rgba(255,255,255,.84); box-shadow: 0 18px 60px rgba(184,50,104,.14);
+      backdrop-filter: blur(8px); z-index: 1;
+    }
+    .eyebrow { color: var(--deep); letter-spacing: .16em; text-transform: uppercase; font-size: .76rem; font-weight: 800; }
+    h1 { margin: 12px 0; color: var(--deep); font-size: clamp(2.25rem, 8vw, 4rem); line-height: 1.05; }
+    .subtitle { font-size: 1.08rem; line-height: 1.7; margin: 0 auto 22px; max-width: 430px; }
+    .cake { font-size: clamp(4rem, 15vw, 6rem); margin: 12px 0; filter: drop-shadow(0 8px 10px #ffb6cf); animation: bob 2.6s ease-in-out infinite; }
+    @keyframes bob { 0%,100% { transform: translateY(0) rotate(-2deg); } 50% { transform: translateY(-9px) rotate(2deg); } }
+    button, .site-link {
+      display: inline-block; border: 0; border-radius: 999px; padding: 14px 22px; font: inherit; font-weight: 800;
+      text-decoration: none; cursor: pointer; transition: transform .18s ease, box-shadow .18s ease;
+    }
+    button { color: white; background: linear-gradient(135deg, #ff78a8, #c44d94); box-shadow: 0 8px 20px #ffb6d0; }
+    .site-link { color: var(--deep); background: #fff0f6; border: 1px solid #ffd0e2; margin-top: 12px; }
+    button:hover, .site-link:hover { transform: translateY(-2px); }
+    #surprise { display: none; margin: 25px auto 0; padding: 20px; border-radius: 20px; background: #fff1f7; line-height: 1.8; animation: appear .55s ease both; }
+    #surprise.show { display: block; }
+    @keyframes appear { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+    .signature { margin-top: 18px; color: #a34b77; font-style: italic; }
+    .float { position: fixed; bottom: -40px; pointer-events: none; opacity: .65; animation: rise linear forwards; z-index: 0; }
+    @keyframes rise { to { transform: translateY(-115vh) rotate(35deg); opacity: 0; } }
+    .footer { margin-top: 24px; font-size: .8rem; color: #a77b91; }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; } }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <div class="eyebrow">A tiny page, a big wish ✨</div>
+    <div class="cake" aria-hidden="true">🎂</div>
+    <h1>Happy Birthday! 💗</h1>
+    <p class="subtitle">Today is all about you — may your day be sprinkled with love, laughter, sweet surprises, and lovely little moments.</p>
+    <button id="reveal" type="button">Tap for your surprise 💌</button>
+    <section id="surprise" aria-live="polite">
+      <div style="font-size:2rem">🌷 💖 🎉</div>
+      <strong>Wishing you all the happiness in the world!</strong>
+      <p>May this new chapter bring you beautiful memories, kind people, exciting adventures, and a thousand reasons to smile. You deserve all the good things life has to offer. 💕</p>
+      <div class="signature">Made with love ♡</div>
+    </section>
+    <p><a class="site-link" href="https://mrigaaya.com/" target="_blank" rel="noopener noreferrer">A little something for you ↗</a></p>
+    <div class="footer">Make a wish, close your eyes, and let the magic begin ✨</div>
+  </main>
+  <script>
+    const revealButton = document.getElementById('reveal');
+    const surprise = document.getElementById('surprise');
+    revealButton.addEventListener('click', () => {
+      surprise.classList.add('show');
+      revealButton.textContent = 'Surprise opened! 💖';
+      burstConfetti();
+    });
+
+    const colors = ['#ff78a8', '#ffd166', '#cdb4ff', '#a8e6cf', '#ff9f1c', '#f4a7c5'];
+    function burstConfetti() {
+      for (let i = 0; i < 110; i++) {
+        const piece = document.createElement('span');
+        piece.style.position = 'fixed';
+        piece.style.left = (Math.random() * 100) + 'vw';
+        piece.style.top = (-10 - Math.random() * 35) + 'px';
+        piece.style.width = (6 + Math.random() * 7) + 'px';
+        piece.style.height = (9 + Math.random() * 10) + 'px';
+        piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+        piece.style.borderRadius = Math.random() > .5 ? '50%' : '2px';
+        piece.style.zIndex = '5';
+        piece.style.pointerEvents = 'none';
+        piece.style.transform = `rotate(${Math.random() * 360}deg)`;
+        piece.style.transition = `transform ${2 + Math.random() * 2}s ease-out, top ${2 + Math.random() * 2}s ease-out, opacity 3s ease`;
+        document.body.appendChild(piece);
+        requestAnimationFrame(() => {
+          piece.style.top = '105vh';
+          piece.style.transform = `translateX(${(Math.random() - .5) * 220}px) rotate(${Math.random() * 900}deg)`;
+          piece.style.opacity = '0';
+        });
+        setTimeout(() => piece.remove(), 4500);
+      }
+    }
+
+    // Gentle floating hearts and sparkles
+    const floaties = ['♡', '✦', '♥', '✧'];
+    function addFloaty() {
+      const el = document.createElement('span');
+      el.className = 'float';
+      el.textContent = floaties[Math.floor(Math.random() * floaties.length)];
+      el.style.left = Math.random() * 100 + 'vw';
+      el.style.fontSize = (14 + Math.random() * 24) + 'px';
+      el.style.color = colors[Math.floor(Math.random() * colors.length)];
+      el.style.animationDuration = (7 + Math.random() * 7) + 's';
+      document.body.appendChild(el);
+      setTimeout(() => el.remove(), 15000);
+    }
+    for (let i = 0; i < 12; i++) setTimeout(addFloaty, i * 400);
+    setInterval(addFloaty, 900);
+  </script>
+</body>
+</html>
